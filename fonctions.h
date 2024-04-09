@@ -16,5 +16,8 @@ COLUMN *create_column(char* title);
 
 int insert_value(COLUMN* column, int value);
 
+void delete_column(COLUMN **column);
+
+void print_col(COLUMN* col);
 
 #endif //CDATAFRAME_FONCTIONS_H
