@@ -78,5 +78,44 @@ void print_col(COLUMN* col) {
     }
 }
 
+//Retourne le nombre d'occurence de la valeur x
+int nb_occurence(COLUMN* col, int x){
+    //Initialisation du compteur
+    int cpt = 0;
+    for(int i=0; i<col->logical_size;i++){
+        //Vérifie si la valeur est la même que x
+        if(col->data[i]==x){
+            cpt++;
+        }
+    }
+    return cpt;
+}
 
+//Retourne la valeur à la position x
+int x_pos(COLUMN* col, int x){
+    return col->data[x];
+}
 
+//Retourne le nombre de valeur supérieure à x
+int val_sup(COLUMN* col, int x){
+    int cpt=0;
+    for(int i=0; i<col->logical_size;i++){
+        //Vérifie si la valeur est supérieure à x
+        if(col->data[i]>x){
+            cpt++;
+        }
+    }
+    return cpt;
+}
+
+//Retourne le nombre de valeur inférieure à x
+int val_inf(COLUMN* col, int x){
+    int cpt=0;
+    for(int i=0; i<col->logical_size;i++){
+        //Vérifie si la valeur est inférieure à x
+        if(col->data[i]<x){
+            cpt++;
+        }
+    }
+    return cpt;
+}
