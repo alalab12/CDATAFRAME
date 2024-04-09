@@ -20,4 +20,12 @@ void delete_column(COLUMN **column);
 
 void print_col(COLUMN* col);
 
+int nb_occurence(COLUMN* col, int x);
+
+int x_pos(COLUMN* col, int x);
+
+int val_sup(COLUMN* col, int x);
+
+int val_inf(COLUMN* col, int x);
+
 #endif //CDATAFRAME_FONCTIONS_H
