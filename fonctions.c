@@ -4,7 +4,7 @@
 #include "fonctions.h"
 
 
-#define REALOC_SIZE 256
+#define REALLOC_SIZE 256
 
 COLUMN *create_column(char* title){
     COLUMN *column;
