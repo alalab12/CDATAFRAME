@@ -28,4 +28,7 @@ int val_sup(COLUMN* col, int x);
 
 int val_inf(COLUMN* col, int x);
 
+int val_egal(COLUMN* column, int x);
+
+
 #endif //CDATAFRAME_FONCTIONS_H
