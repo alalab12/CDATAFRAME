@@ -25,36 +25,26 @@ COLUMN *create_column(char* title){
 }
 
 int insert_value(COLUMN *column, int value){
-    int* new_data = NULL;
-    // Vérifier qu'il y a assez d'espace disponible
-    if (column->logical_size >= column->physical_size) {
-        //Alloue un nouveau bloc de mémoire
-        new_data = (int*)malloc((column->physical_size + REALLOC_SIZE) * sizeof(int));
+    if (column->logical_size == column->physical_size) {
+        int *new_data = malloc((column->physical_size + REALLOC_SIZE) * sizeof(int));
+
+        if (!new_data) { //cas d'erreur
+            return 0;
+        }
+
+        for (int i = 0; i < column->physical_size; i++) {
+            new_data[i] = column->data[i];
+        }
+
+        free(column->data);
+        column->data = new_data;
+        column->physical_size += 256;
     }
 
-    //Cas d'erreur
-    if (new_data == NULL){
-        return 0;
-    }
+    column->data[column->logical_size] = value;
+    column->logical_size++;
 
-    //Copie des données dans le nouveau bloc
-    for (int i=0; i < column->logical_size;i++){
-        new_data[i] = column->data[i];
-    }
-
-    //Libérer l'ancien bloc
-    free(column->data);
-
-    //Mettre à jour le pointeur de donné
-    column->data = new_data;
-
-    //Mettre à jour la taille physique
-    column->physical_size += REALLOC_SIZE;
-
-    //Insérer la nouvelle valeur
-    column->data[column->logical_size++] = value;
-
-    return 1; //Indique la valeur à bien été insérée
+    return 1;
 
 }
 
@@ -118,4 +108,16 @@ int val_inf(COLUMN* col, int x){
         }
     }
     return cpt;
+
+//retourne le nombre de valeur égal à x
+int val_egal(COLUMN* column, int x){
+    int cpt=0;
+    for(int i=0; i < column->logical_size; i++){
+        if(column->data[i]==x){
+            cpt++;
+        }
+    }
+    return cpt;
+
+
 }
