@@ -1,4 +1,5 @@
 #include "fonctions.h"
+#include <stdio.h>
 
 int main(){
 
