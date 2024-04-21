@@ -1,6 +1,8 @@
 # CDATAFRAME
 Nom : Aude Labat/Julie Brouet
+
 Classe : Groupe B
+
 lien github : https://github.com/alalab12/CDATAFRAME
 
 Ce projet a pour but la manipulation de données en utilisant le langage C.
