@@ -5,7 +5,7 @@
 #ifndef CDATAFRAME_FONCTIONNALITES_H
 #define CDATAFRAME_FONCTIONNALITES_H
 
-#include "fonctions.h"
+#include "column.h"
 
 
 typedef struct {
