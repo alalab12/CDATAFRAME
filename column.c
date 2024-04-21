@@ -1,7 +1,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "fonctions.h"
+#include "column.h"
 
 
 #define REALLOC_SIZE 256
