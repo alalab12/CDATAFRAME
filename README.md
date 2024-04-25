@@ -64,5 +64,5 @@ int nb_valeur_egale : nombre de valeurs du dataframe égal à la valeur donnée
 nb_valeur_sup : nombre de valeurs du dataframe supérieur à la valeur donnée
 nb_valeuf_inf : ombre de valeurs du dataframe inférieur à la valeur donnée
 
-Pour ce projet, nous allons utiliser le dataframe comme un tableau de colonnes.
+Pour ce projet, nous allons utiliser le dataframe à l'aide des listes chainées.
 
