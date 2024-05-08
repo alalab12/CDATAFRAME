@@ -13,7 +13,7 @@ int main(){
     //insert_value(Column_1,4);
 
 
-    //print_column(Column_1);
+    //print_col(Column_1);
 
 
     //int value = 2;
@@ -35,7 +35,7 @@ int main(){
     //int egal = val_egal(Column_1, value);
     //printf("Il y a %d valeurs egal a %d\n", egal, value);
 
-    //free_column(&Column_1);
+    //delete_column(&Column_1);
 
 
     //CDATAFRAME dataframe;
@@ -49,7 +49,6 @@ int main(){
     //int columns = 4;
     //int** data = (int**)malloc(rows * sizeof(int*));
 
-    }
     //remplissage_dur(&dataframe, data, rows, columns);
 
 
