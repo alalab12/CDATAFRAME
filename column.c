@@ -1,4 +1,4 @@
-
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "column.h"
@@ -108,6 +108,7 @@ int val_inf(COLUMN* col, int x){
         }
     }
     return cpt;
+}
 
 //retourne le nombre de valeur égal à x
 int val_egal(COLUMN* column, int x){
@@ -118,6 +119,5 @@ int val_egal(COLUMN* column, int x){
         }
     }
     return cpt;
-
 
 }
