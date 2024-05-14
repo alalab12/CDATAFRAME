@@ -1,30 +1,38 @@
-#include <stdio.h>
+
+
 #include <stdlib.h>
 #include <string.h>
 #include "column.h"
-
+#include <stdio.h>
 
 #define REALLOC_SIZE 256
 
-COLUMN *create_column(char* title){
-    COLUMN *column;
-    //initialisation données
-    column->data = NULL;
 
-    //initialisation de la taille physique
-    column->physical_size = 0;
 
-    //initialisation de la taille logique
-    column->logical_size = 0;
-
-    //allocation de la mémoire pour le titre
-    column->title = (char*)malloc((strlen(title) + 1) * sizeof(char));
+//création d'une colonne
+COLUMN* create_column(char* title){
 
     //allocation de la mémoire pour la colonne
-    column = (COLUMN*)malloc(sizeof(COLUMN));
+    COLUMN* col = (COLUMN*)malloc(sizeof(COLUMN));
+
+    //initialisation données
+    col->data = NULL;
+
+    //initialisation de la taille physique
+    col->physical_size = 0;
+
+    //initialisation de la taille logique
+    col->logical_size = 0;
+
+    //allocation de la mémoire pour le titre
+    col->title = strdup(title);
+
+    return col;
 }
 
-int insert_value(COLUMN *column, int value){
+
+//insertion de valeur
+int insert_value(COLUMN* column, int value){
     if (column->logical_size == column->physical_size) {
         int *new_data = malloc((column->physical_size + REALLOC_SIZE) * sizeof(int));
 
@@ -49,7 +57,7 @@ int insert_value(COLUMN *column, int value){
 }
 
 //Supprime une colonne
-void delete_column(COLUMN **column){
+void free_column(COLUMN** column){
 
     //libération des données
     free((*column)->data);
@@ -62,7 +70,7 @@ void delete_column(COLUMN **column){
 }
 
 // Affiche le contenu d'une colonne
-void print_col(COLUMN* col) {
+void print_column(COLUMN* col) {
     for (int i = 0; i < col->logical_size; i++) {
         printf("[%d] %d\n", i, col->data[i]);
     }
@@ -78,12 +86,20 @@ int nb_occurence(COLUMN* col, int x){
             cpt++;
         }
     }
+
     return cpt;
 }
 
 //Retourne la valeur à la position x
 int x_pos(COLUMN* col, int x){
-    return col->data[x];
+    int pos=0;
+    for(int i=0; i<col->logical_size;i++){
+        if(col->data[i] == x){
+            pos = i;
+        }
+    }
+    return pos;
+
 }
 
 //Retourne le nombre de valeur supérieure à x
@@ -110,7 +126,7 @@ int val_inf(COLUMN* col, int x){
     return cpt;
 }
 
-//retourne le nombre de valeur égal à x
+//Retourne le nombre de valeur égal à x
 int val_egal(COLUMN* column, int x){
     int cpt=0;
     for(int i=0; i < column->logical_size; i++){
@@ -119,5 +135,6 @@ int val_egal(COLUMN* column, int x){
         }
     }
     return cpt;
-
 }
+
+
