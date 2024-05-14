@@ -1,24 +1,28 @@
 
 
+#ifndef CDATAFRAME_COLUMN_H
+#define CDATAFRAME_COLUMN_H
 
-#ifndef CDATAFRAME_FONCTIONS_H
-#define CDATAFRAME_FONCTIONS_H
+
 
 // Structure de la colonne
 typedef struct {
-    char* title;        // Titre de la colonne (chaîne de caractères)
-    int* data;          // Données de la colonne (tableau d'entiers)
-    int logical_size;   // Taille logique (nombre de valeurs insérées)
-    int physical_size;  // Taille physique (nombre de cases allouées dynamiquement)
-} COLUMN;
+    char* title;        // Titre de la colonne
+    int* data;          // Données de la colonne
+    int physical_size;  // Taille physique
+    int logical_size;   // Taille logique
+}COLUMN;
+
+
+
 
 COLUMN *create_column(char* title);
 
 int insert_value(COLUMN* column, int value);
 
-void delete_column(COLUMN **column);
+void free_column(COLUMN** column);
 
-void print_col(COLUMN* col);
+void print_column(COLUMN* col);
 
 int nb_occurence(COLUMN* col, int x);
 
@@ -30,5 +34,4 @@ int val_inf(COLUMN* col, int x);
 
 int val_egal(COLUMN* column, int x);
 
-
-#endif //CDATAFRAME_FONCTIONS_H
+#endif //CDATAFRAME_COLUMN_H
