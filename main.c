@@ -22,18 +22,18 @@ int main(){
 
 
     //int position = x_pos(Column_1, value);
-    //printf("La position de valeur %d est %d\n", value, position);
+    //printf("La position de valeur %d est %d\n.", value, position);
 
     //int superieur = val_sup(Column_1, value);
-    //printf("Il y a %d valeurs superieur a %d\n", superieur, value);
+    //printf("Il y a %d valeurs superieur à %d\n.", superieur, value);
 
 
     //int inferieur = val_inf(Column_1, value);
-    //printf("Il y a %d valeurs inferieur a %d\n", inferieur, value);
+    //printf("Il y a %d valeurs inferieur à %d\n.", inferieur, value);
 
 
     //int egal = val_egal(Column_1, value);
-    //printf("Il y a %d valeurs egal a %d\n", egal, value);
+    //printf("Il y a %d valeurs egal à %d\n.", egal, value);
 
     //delete_column(&Column_1);
 
