@@ -33,13 +33,14 @@ COLUMN* create_column(char* title){
 
 //insertion de valeur
 int insert_value(COLUMN* column, int value){
+    //si la taille physique = taille logique, il faut ajouter de l'espace
     if (column->logical_size == column->physical_size) {
         int *new_data = malloc((column->physical_size + REALLOC_SIZE) * sizeof(int));
 
         if (!new_data) { //cas d'erreur
             return 0;
         }
-
+        //Copie des données
         for (int i = 0; i < column->physical_size; i++) {
             new_data[i] = column->data[i];
         }
@@ -48,7 +49,7 @@ int insert_value(COLUMN* column, int value){
         column->data = new_data;
         column->physical_size += 256;
     }
-
+    //sinon on rajoute seulement la valeur et on change la taille logique 
     column->data[column->logical_size] = value;
     column->logical_size++;
 
@@ -92,14 +93,7 @@ int nb_occurence(COLUMN* col, int x){
 
 //Retourne la valeur à la position x
 int x_pos(COLUMN* col, int x){
-    int pos=0;
-    for(int i=0; i<col->logical_size;i++){
-        if(col->data[i] == x){
-            pos = i;
-        }
-    }
-    return pos;
-
+    return col->data[x];
 }
 
 //Retourne le nombre de valeur supérieure à x
@@ -130,6 +124,7 @@ int val_inf(COLUMN* col, int x){
 int val_egal(COLUMN* column, int x){
     int cpt=0;
     for(int i=0; i < column->logical_size; i++){
+        //vérifie si la valeur est égale à x
         if(column->data[i]==x){
             cpt++;
         }
