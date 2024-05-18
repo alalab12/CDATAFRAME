@@ -5,7 +5,10 @@ Classe : Groupe B
 
 lien github : https://github.com/alalab12/CDATAFRAME
 
-Ce projet a pour but la manipulation de données en utilisant le langage C.
+Nous travaillons sur un projet où nous devons créer une bibliothèque en langage C qui reproduit certaines fonctionnalités de la librairie Pandas en Python. Nous avons donc essayé de coder un dataframe. Ce Dataframe sera composé de colonnes contenant des données du même type et sera identifiable par un titre. Il permettra plusieurs opérations telles que l'ajout, la suppression et la modification de colonnes ou de lignes.
+
+Pour pouvoir utiliser notre projet, vous devez avoir un éditeur de code qui peut compiler et exécuter du langage C. Puis vous pouvez copié l'entièreté de notre code. Enfin, vous pouvez lancer l'exécution et utiliser le menu qui vous guidera dans vos choix.
+
 Pour cela, nous utilisons des structures qui sont appelées colonnes qui contiennent le nom de la colonne, sa taille( physique et logique) ou encore, le plus important, les données.
 Nous avons ainsi créé ces fonctions qui agissent sur une colonne :
 
@@ -64,5 +67,5 @@ int nb_valeur_egale : nombre de valeurs du dataframe égal à la valeur donnée
 nb_valeur_sup : nombre de valeurs du dataframe supérieur à la valeur donnée
 nb_valeuf_inf : ombre de valeurs du dataframe inférieur à la valeur donnée
 
-Pour ce projet, nous allons utiliser le dataframe à l'aide des listes chainées.
+Pour ce projet, nous allons utiliser le dataframe à l'aide d'un tableau d'entier.
 
