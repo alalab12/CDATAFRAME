@@ -25,7 +25,8 @@ COLUMN* create_column(char* title){
     col->logical_size = 0;
 
     //allocation de la mémoire pour le titre
-    col->title = strdup(title);
+    column->title= (char*) malloc((strlen(title)+1)*sizeof(char));
+    strcpy(column->title, title);
 
     return col;
 }
@@ -72,6 +73,7 @@ void free_column(COLUMN** column){
 
 // Affiche le contenu d'une colonne
 void print_column(COLUMN* col) {
+    printf("%s:\n", col->title);
     for (int i = 0; i < col->logical_size; i++) {
         printf("[%d] %d\n", i, col->data[i]);
     }
