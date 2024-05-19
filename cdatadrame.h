@@ -1,54 +1,44 @@
-
-
-#ifndef CDATAFRAME_CDATAFRAME_H
-#define CDATAFRAME_CDATAFRAME_H
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "column.h"
+
+#define REALLOC_SIZE 256
 
 
 typedef struct {
     COLUMN** columns;
-    int number_columns;
-    int number_rows;
+    int num_columns;
+    int num_rows;
+} CDataframe;
 
-}CDATAFRAME;
+CDataframe* create_dataframe();
 
-
-CDATAFRAME* creation_dataframe_vide();
-
-void remplissage_utilisateur(CDATAFRAME* dataframe);
-
-void remplissage_dur(CDATAFRAME* dataframe, int** data, int number_rows, int number_columns);
-
-void afficher_dataframe(CDATAFRAME* dataframe);
-
-void afficher_certaines_colonne(CDATAFRAME* dataframe,int limite);
-
-void afficher_certaines_ligne(CDATAFRAME* dataframe,int limite);
-
-void ajouter_ligne_valeur(CDATAFRAME * dataframe, int* val);
-
-void ajouter_colonne(CDATAFRAME * dataframe, COLUMN* column);
-
-void supprimer_colonne(CDATAFRAME * dataframe, int index);
-
-void renomer_colonne(CDATAFRAME * dataframe, int index, char* nouveau_titre);
-
-int acceder_valeur(CDATAFRAME * dataframe, int ligne, int colonne);
-
-void remplacer_valeur(CDATAFRAME * dataframe, int row, int col, int value);
-
-void afficher_titre_colonne(CDATAFRAME* dataframe);
-
-int nb_lignes(CDATAFRAME* dataframe);
-
-int nb_colonnes(CDATAFRAME* dataframe);
-
-int nb_valeur_egale(CDATAFRAME* dataframe, int val);
-
-int nb_valeur_sup(CDATAFRAME* dataframe, int val);
-
-int nb_valeur_inf(CDATAFRAME* dataframe, int val);
+void free_dataframe(CDataframe* cdf);
 
 
-#endif //CDATAFRAME_CDATAFRAME_H
+void dataframe_user_input(CDataframe* cdf);
+void dataframe_hardcoded(CDataframe* cdf);
+
+// Display
+void print_dataframe(const CDataframe* cdf);
+void print_dataframe_rows(const CDataframe* cdf, int row_limit);
+void print_dataframe_columns(const CDataframe* cdf, int col_limit);
+
+
+int add_row(CDataframe* cdf, int* values);
+int delete_row(CDataframe* cdf, int row_index);
+int add_column(CDataframe* cdf, const char* title);
+int delete_column(CDataframe* cdf, int col_index);
+int rename_column(CDataframe* cdf, int col_index, const char* new_title);
+int value_exists(const CDataframe* cdf, int value);
+int access_value(CDataframe* cdf, int row, int col, int* value);
+int replace_value(CDataframe* cdf, int row, int col, int value);
+void print_column_titles(const CDataframe* cdf);
+
+
+int num_rows(const CDataframe* cdf);
+int num_columns(const CDataframe* cdf);
+int count_equal(const CDataframe* cdf, int x);
+int count_greater(const CDataframe* cdf, int x);
+int count_less(const CDataframe* cdf, int x);
