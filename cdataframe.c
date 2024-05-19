@@ -26,13 +26,51 @@ void free_dataframe(CDataframe* cdf) {
     free(cdf);
 }
 
+void dataframe_user_input(CDataframe* df) {
+    int num_columns, num_rows;
 
-void dataframe_user_input(CDataframe* cdf) {
-    // à faire
+    printf("Enter number of columns: ");
+    scanf("%d", &num_columns);
+
+    for (int i = 0; i < num_columns; i++) {
+        char title[256];
+        printf("Enter title for column %d: ", i + 1);
+        scanf("%s", title);
+        add_column(df, title);
+    }
+
+    printf("Enter number of rows: ");
+    scanf("%d", &num_rows);
+
+    for (int i = 0; i < num_rows; i++) {
+        int* values = (int*)malloc(num_columns * sizeof(int));
+        if (!values) {
+            printf("Memory allocation failed\n");
+            return;
+        }
+        printf("Enter values for row %d (space separated): ", i + 1);
+        for (int j = 0; j < num_columns; j++) {
+            scanf("%d", &values[j]);
+        }
+        add_row(df, values);
+        free(values);
+    }
 }
 
-void dataframe_hardcoded(CDataframe* cdf) {
-    // à faire
+void dataframe_hardcoded(CDataframe* df) {
+    // Adding columns
+    add_column(df, "Column1");
+    add_column(df, "Column2");
+    add_column(df, "Column3");
+
+    // Adding rows
+    int values1[] = {1, 2, 3};
+    int values2[] = {4, 5, 6};
+    int values3[] = {7, 8, 9};
+
+    add_row(df, values1);
+    add_row(df, values2);
+    add_row(df, values3);
 }
 
 // Display
