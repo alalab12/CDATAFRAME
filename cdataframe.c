@@ -37,7 +37,7 @@ void dataframe_hardcoded(CDataframe* cdf) {
 }
 
 // Display
-void print_dataframe(const CDataframe* cdf) {
+void print_dataframe( CDataframe* cdf) {
     if (!cdf) {
         return;
     }
@@ -54,7 +54,7 @@ void print_dataframe(const CDataframe* cdf) {
     }
 }
 
-void print_dataframe_rows(const CDataframe* cdf, int row_limit) {
+void print_dataframe_rows( CDataframe* cdf, int row_limit) {
     if (!cdf) {
         return;
     }
@@ -70,7 +70,7 @@ void print_dataframe_rows(const CDataframe* cdf, int row_limit) {
     }
 }
 
-void print_dataframe_columns(const CDataframe* cdf, int col_limit) {
+void print_dataframe_columns(CDataframe* cdf, int col_limit) {
     if (!cdf) {
         return;
     }
@@ -120,7 +120,7 @@ int delete_row(CDataframe* cdf, int row_index) {
     return 1;
 }
 
-int add_column(CDataframe* cdf, const char* title) {
+int add_column(CDataframe* cdf, char* title) {
     if (!cdf) return 0;
     COLUMN* col = (COLUMN*)malloc(sizeof(COLUMN));
     if (!col) return 0;
@@ -162,7 +162,7 @@ int delete_column(CDataframe* cdf, int col_index) {
     return 1;
 }
 
-int rename_column(CDataframe* cdf, int col_index, const char* new_title) {
+int rename_column(CDataframe* cdf, int col_index,char* new_title) {
     if (!cdf || col_index >= cdf->num_columns || col_index < 0) {
         return 0;
     }
@@ -171,7 +171,7 @@ int rename_column(CDataframe* cdf, int col_index, const char* new_title) {
     return cdf->columns[col_index]->title != NULL;
 }
 
-int value_exists(const CDataframe* cdf, int value) {
+int value_exists(CDataframe* cdf, int value) {
     if (!cdf) {
         return 0;
     }
@@ -199,7 +199,7 @@ int replace_value(CDataframe* cdf, int row, int col, int value) {
     return 1;
 }
 
-void print_column_titles(const CDataframe* cdf) {
+void print_column_titles(CDataframe* cdf) {
     if (!cdf) {
         return;
     }
@@ -210,21 +210,21 @@ void print_column_titles(const CDataframe* cdf) {
 }
 
 // Analysis and statistics
-int num_rows(const CDataframe* cdf) {
+int num_rows(CDataframe* cdf) {
     if (!cdf) {
         return 0;
     }
     return cdf->num_rows;
 }
 
-int num_columns(const CDataframe* cdf) {
+int num_columns(CDataframe* cdf) {
     if (!cdf) {
         return 0;
     }
     return cdf->num_columns;
 }
 
-int count_equal(const CDataframe* cdf, int x) {
+int count_equal(CDataframe* cdf, int x) {
     if (!cdf){
         return 0;
     }
@@ -237,7 +237,7 @@ int count_equal(const CDataframe* cdf, int x) {
     return count;
 }
 
-int count_greater(const CDataframe* cdf, int x) {
+int count_greater(CDataframe* cdf, int x) {
     if (!cdf) {
         return 0;
     }
@@ -250,7 +250,7 @@ int count_greater(const CDataframe* cdf, int x) {
     return count;
 }
 
-int count_less(const CDataframe* cdf, int x) {
+int count_less(CDataframe* cdf, int x) {
     if (!cdf) {
         return 0;
     }
