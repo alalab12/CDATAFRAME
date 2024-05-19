@@ -1,179 +1,264 @@
+
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include "cdataframe.h"
+#include <stdio.h>
 
 
-//création dataframe vide
-CDATAFRAME* creation_dataframe_vide() {
-    CDATAFRAME* dataframe = (CDATAFRAME *)malloc(sizeof(CDATAFRAME));
-    dataframe->columns = NULL;
-    dataframe->number_columns = 0;
-    dataframe->number_rows = 0;
-    return dataframe;
+CDataframe* create_dataframe() {
+    CDataframe* cdf= (CDataframe*)malloc(sizeof(CDataframe));
+    if (!cdf) return NULL;
+    cdf->columns = NULL;
+    cdf->num_columns = 0;
+    cdf->num_rows = 0;
+    return cdf;
 }
 
-//remplissage avec saisie utilisateur
-void remplissage_utilisateur(CDATAFRAME* dataframe){
-    for (int i=0; i < dataframe->number_columns; i++){
-        int val;
-        printf("Entrez des valeurs pour la colonne %s\n",dataframe->columns[i]->title);
-        while (scanf("%d", &val)==1){
-            insert_value(dataframe->columns[i], val);
-            dataframe->number_rows++;
+void free_dataframe(CDataframe* cdf) {
+    if (!cdf) {
+        return;
+    }
+    for (int i = 0; i < cdf->num_columns; i++) {
+        free(cdf->columns[i]->data);
+        free(cdf->columns[i]->title);
+        free(cdf->columns[i]);
+    }
+    free(cdf->columns);
+    free(cdf);
+}
+
+
+void dataframe_user_input(CDataframe* cdf) {
+    // à faire
+}
+
+void dataframe_hardcoded(CDataframe* cdf) {
+    // à faire
+}
+
+// Display
+void print_dataframe(const CDataframe* cdf) {
+    if (!cdf) {
+        return;
+    }
+    for (int i = 0; i < cdf->num_columns; i++) {
+        printf("%s\t", cdf->columns[i]->title);
+    }
+    printf("\n");
+
+    for (int i = 0; i < cdf->num_rows; i++) {
+        for (int j = 0; j < cdf->num_columns; j++) {
+            printf("%d\t", cdf->columns[j]->data[i]);
         }
-
+        printf("\n");
     }
 }
 
-//remplissage en dur
-void remplissage_dur(CDATAFRAME* dataframe, int** data, int number_rows, int number_columns){
-    for (int i = 0; i < number_columns; i++) {
-        COLUMN* column = create_column("Titre");
-        for (int j = 0; j < number_rows; j++) {
-            insert_value(column, data[j][i]);
+void print_dataframe_rows(const CDataframe* cdf, int row_limit) {
+    if (!cdf) {
+        return;
+    }
+    for (int i = 0; i < cdf->num_columns; i++) {
+        printf("%s\t", cdf->columns[i]->title);
+    }
+    printf("\n");
+    for (int i = 0; i < row_limit && i < cdf->num_rows; i++) {
+        for (int j = 0; j < cdf->num_columns; j++) {
+            printf("%d\t", cdf->columns[j]->data[i]);
         }
-
+        printf("\n");
     }
 }
 
-//Afficher tous le dataframe
-void afficher_dataframe(CDATAFRAME* dataframe){
-    for (int i = 0; i < dataframe->number_columns; i++) {
-        printf("%s:\n", dataframe->columns[i]->title);
-        print_column(dataframe->columns[i]);
+void print_dataframe_columns(const CDataframe* cdf, int col_limit) {
+    if (!cdf) {
+        return;
+    }
+    for (int i = 0; i < col_limit && i < cdf->num_columns; i++) {
+        printf("%s\t", cdf->columns[i]->title);
+    }
+    printf("\n");
+    for (int i = 0; i < cdf->num_rows; i++) {
+        for (int j = 0; j < col_limit && j < cdf->num_columns; j++) {
+            printf("%d\t", cdf->columns[j]->data[i]);
+        }
+        printf("\n");
     }
 }
 
-//Afficher une partie des colonnes du dataframe
-void afficher_certaines_colonne(CDATAFRAME* dataframe,int limite){
-    for (int i = 0; i < dataframe->number_columns && i < limite; i++) {
-        printf("%s:\n", dataframe->columns[i]->title);
-        print_column(dataframe->columns[i]);
+// Usual operations
+int add_row(CDataframe* cdf, int* values) {
+    if (!cdf || cdf->num_columns == 0) {
+        return 0;
     }
+    for (int i = 0; i < cdf->num_columns; i++) {
+        if (cdf->columns[i]->logical_size == cdf->columns[i]->physical_size) {
+            int new_size = cdf->columns[i]->physical_size + REALLOC_SIZE;
+            int* new_data = realloc(cdf->columns[i]->data, new_size * sizeof(int));
+            if (!new_data) return 0;
+            cdf->columns[i]->data = new_data;
+            cdf->columns[i]->physical_size = new_size;
+        }
+        cdf->columns[i]->data[cdf->num_rows] = values[i];
+        cdf->columns[i]->logical_size++;
+    }
+    cdf->num_rows++;
+    return 1;
 }
 
-//Afficher une partie des lignes du dataframe
-void afficher_certaines_ligne(CDATAFRAME* dataframe,int limite){
-    for (int i = 0; i < dataframe->number_columns; i++) {
-        for (int j = 0; j < limite && j < dataframe->columns[i]->logical_size; j++) {
-            printf("[%d] %d\n", j, dataframe->columns[i]->data[j]);
+int delete_row(CDataframe* cdf, int row_index) {
+    if (!cdf || row_index >= cdf->num_rows || row_index < 0) {
+        return 0;
+    }
+    for (int i = 0; i < cdf->num_columns; i++) {
+        for (int j = row_index; j < cdf->num_rows - 1; j++) {
+            cdf->columns[i]->data[j] = cdf->columns[i]->data[j + 1];
+        }
+        cdf->columns[i]->logical_size--;
+    }
+    cdf->num_rows--;
+    return 1;
+}
+
+int add_column(CDataframe* cdf, const char* title) {
+    if (!cdf) return 0;
+    COLUMN* col = (COLUMN*)malloc(sizeof(COLUMN));
+    if (!col) return 0;
+    col->title = strdup(title);
+    col->data = (int*)malloc(cdf->num_rows * sizeof(int));
+    if (!col->data) {
+        free(col->title);
+        free(col);
+        return 0;
+    }
+    col->logical_size = cdf->num_rows;
+    col->physical_size = cdf->num_rows;
+    for (int i = 0; i < cdf->num_rows; i++) {
+        col->data[i] = 0; // Initialize with zero or any default value
+    }
+    cdf->columns = realloc(cdf->columns, (cdf->num_columns + 1) * sizeof(COLUMN*));
+    if (!cdf->columns) {
+        free(col->data);
+        free(col->title);
+        free(col);
+        return 0;
+    }
+    cdf->columns[cdf->num_columns] = col;
+    cdf->num_columns++;
+    return 1;
+}
+
+int delete_column(CDataframe* cdf, int col_index) {
+    if (!cdf || col_index >= cdf->num_columns || col_index < 0) {
+        return 0;
+    }
+    free(cdf->columns[col_index]->data);
+    free(cdf->columns[col_index]->title);
+    free(cdf->columns[col_index]);
+    for (int i = col_index; i < cdf->num_columns - 1; i++) {
+        cdf->columns[i] = cdf->columns[i + 1];
+    }
+    cdf->num_columns--;
+    return 1;
+}
+
+int rename_column(CDataframe* cdf, int col_index, const char* new_title) {
+    if (!cdf || col_index >= cdf->num_columns || col_index < 0) {
+        return 0;
+    }
+    free(cdf->columns[col_index]->title);
+    cdf->columns[col_index]->title = strdup(new_title);
+    return cdf->columns[col_index]->title != NULL;
+}
+
+int value_exists(const CDataframe* cdf, int value) {
+    if (!cdf) {
+        return 0;
+    }
+    for (int i = 0; i < cdf->num_columns; i++) {
+        for (int j = 0; j < cdf->num_rows; j++) {
+            if (cdf->columns[i]->data[j] == value) return 1;
         }
     }
+    return 0;
 }
 
-//ajouter une ligne de valeur
-void ajouter_ligne_valeur(CDATAFRAME * dataframe, int* val){
-    for (int i=0;i < dataframe->number_columns; i++){
-        insert_value(dataframe->columns[i], val[i]);
+int access_value(CDataframe* cdf, int row, int col, int* value) {
+    if (!cdf || row >= cdf->num_rows || col >= cdf->num_columns || row < 0 || col < 0) {
+        return 0;
     }
-    dataframe->number_rows++;
+    *value = cdf->columns[col]->data[row];
+    return 1;
 }
 
-//supprimer une ligne de valeurs
-
-
-//ajouter une colonne
-void ajouter_colonne(CDATAFRAME * dataframe, COLUMN* column) {
-    dataframe->columns = realloc(dataframe->columns, (dataframe->number_columns + 1) * sizeof(COLUMN*));
-    dataframe->columns[dataframe->number_columns] = column;
-    dataframe->number_columns++;
-}
-
-
-//suprimer colonne
-void supprimer_colonne(CDATAFRAME * dataframe, int index) {
-    if (index < 0 || index >= dataframe->number_columns) {
-        printf("Colonne inexistante\n");
+int replace_value(CDataframe* cdf, int row, int col, int value) {
+    if (!cdf || row >= cdf->num_rows || col >= cdf->num_columns || row < 0 || col < 0) {
+        return 0;
     }
-    free_column(&(dataframe->columns[index]));
-    for (int i = index; i < dataframe->number_columns - 1; i++) {
-        dataframe->columns[i] = dataframe->columns[i + 1];
-    }
-
-    dataframe->number_columns--;
+    cdf->columns[col]->data[row] = value;
+    return 1;
 }
 
-//renomer la colonne
-void renomer_colonne(CDATAFRAME * dataframe, int index, char* nouveau_titre) {
-
-    if (index < 0 || index >= dataframe->number_columns) {
-        printf("Colonne inexistante\n");
+void print_column_titles(const CDataframe* cdf) {
+    if (!cdf) {
+        return;
     }
-    int nouveau_titre_longueur= strlen(nouveau_titre);
-
-    // Reallocate memory for the title of the specified column
-    char* temp = realloc(dataframe->columns[index]->title, (nouveau_titre_longueur + 1) * sizeof(char));
-    dataframe->columns[index]->title = temp;
-
-    for (int i = 0; i < nouveau_titre_longueur; i++) {
-        dataframe->columns[index]->title[i] =nouveau_titre[i];
+    for (int i = 0; i < cdf->num_columns; i++) {
+        printf("%s\t", cdf->columns[i]->title);
     }
-
-    dataframe->columns[index]->title[nouveau_titre_longueur] = '\0';
+    printf("\n");
 }
 
-//accéder à une valeur
-int acceder_valeur(CDATAFRAME * dataframe, int ligne, int colonne) {
-    if (ligne < 0 || ligne >= dataframe->number_rows || colonne < 0 || colonne >= dataframe->number_columns) {
-        printf("Colonne ou ligne inexistante\n");
+// Analysis and statistics
+int num_rows(const CDataframe* cdf) {
+    if (!cdf) {
+        return 0;
     }
-    return dataframe->columns[colonne]->data[colonne];
+    return cdf->num_rows;
 }
 
-
-//remplacer une valeur
-void remplacer_valeur(CDATAFRAME * dataframe, int row, int col, int value) {
-    // Check if the provided row and column indices are valid
-    if (row < 0 || row >= dataframe->number_rows || col < 0 || col >= dataframe->number_columns) {
-        printf("Invalid row or column index\n");
+int num_columns(const CDataframe* cdf) {
+    if (!cdf) {
+        return 0;
     }
-
-    dataframe->columns[col]->data[row] = value;
+    return cdf->num_columns;
 }
 
-//afficher titre colonne
-
-void afficher_titre_colonne(CDATAFRAME* dataframe){
-    printf("Noms des colonnes :\n");
-    for (int i=0; i < dataframe->number_columns; i++){
-        printf("%s\n",dataframe->columns[i]->title);
+int count_equal(const CDataframe* cdf, int x) {
+    if (!cdf){
+        return 0;
     }
-}
-
-//afficher le nombre de ligne
-int nb_lignes(CDATAFRAME* dataframe){
-    return dataframe->number_rows;
-}
-
-//afficher le nombre de colonne
-int nb_colonnes(CDATAFRAME* dataframe){
-    return dataframe->number_columns;
-}
-
-//Nombre de cellules avec une valeur égale à x
-int nb_valeur_egale(CDATAFRAME* dataframe, int val){
-    int cpt = 0;
-    for (int i =0; i < dataframe->number_columns;i++){
-        cpt+= val_egal(dataframe->columns[i], val);
-        return cpt;
+    int count = 0;
+    for (int i = 0; i < cdf->num_columns; i++) {
+        for (int j = 0; j < cdf->num_rows; j++) {
+            if (cdf->columns[i]->data[j] == x) count++;
+        }
     }
+    return count;
 }
 
-//Nombre de cellules avec une valeur supérieur à x
-int nb_valeur_sup(CDATAFRAME* dataframe, int val){
-    int cpt = 0;
-    for (int i =0; i < dataframe->number_columns;i++){
-        cpt+= val_sup(dataframe->columns[i], val);
+int count_greater(const CDataframe* cdf, int x) {
+    if (!cdf) {
+        return 0;
     }
-        return cpt;
+    int count = 0;
+    for (int i = 0; i < cdf->num_columns; i++) {
+        for (int j = 0; j < cdf->num_rows; j++) {
+            if (cdf->columns[i]->data[j] > x) count++;
+        }
+    }
+    return count;
 }
 
-//Nombre de cellules avec une valeur inférieur à x
-int nb_valeur_inf(CDATAFRAME* dataframe, int val){
-    int cpt = 0;
-    for (int i =0; i < dataframe->number_columns;i++){
-        cpt+= val_inf(dataframe->columns[i], val);
+int count_less(const CDataframe* cdf, int x) {
+    if (!cdf) {
+        return 0;
     }
-    return cpt;
+    int count = 0;
+    for (int i = 0; i < cdf->num_columns; i++) {
+        for (int j = 0; j < cdf->num_rows; j++) {
+            if (cdf->columns[i]->data[j] < x) count++;
+        }
+    }
+    return count;
 }
