@@ -7,7 +7,9 @@
 
 CDataframe* create_dataframe() {
     CDataframe* cdf= (CDataframe*)malloc(sizeof(CDataframe));
-    if (!cdf) return NULL;
+    if (!cdf) {
+        return NULL;
+    }
     cdf->columns = NULL;
     cdf->num_columns = 0;
     cdf->num_rows = 0;
@@ -15,9 +17,6 @@ CDataframe* create_dataframe() {
 }
 
 void free_dataframe(CDataframe* cdf) {
-    if (!cdf) {
-        return;
-    }
     for (int i = 0; i < cdf->num_columns; i++) {
         free(cdf->columns[i]->data);
         free(cdf->columns[i]->title);
@@ -36,11 +35,8 @@ void dataframe_hardcoded(CDataframe* cdf) {
     // à faire
 }
 
-
+// Display
 void print_dataframe( CDataframe* cdf) {
-    if (!cdf) {
-        return;
-    }
     for (int i = 0; i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
     }
@@ -55,9 +51,6 @@ void print_dataframe( CDataframe* cdf) {
 }
 
 void print_dataframe_rows( CDataframe* cdf, int row_limit) {
-    if (!cdf) {
-        return;
-    }
     for (int i = 0; i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
     }
@@ -71,9 +64,6 @@ void print_dataframe_rows( CDataframe* cdf, int row_limit) {
 }
 
 void print_dataframe_columns(CDataframe* cdf, int col_limit) {
-    if (!cdf) {
-        return;
-    }
     for (int i = 0; i < col_limit && i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
     }
@@ -86,9 +76,9 @@ void print_dataframe_columns(CDataframe* cdf, int col_limit) {
     }
 }
 
-
+// Usual operations
 int add_row(CDataframe* cdf, int* values) {
-    if (!cdf || cdf->num_columns == 0) {
+    if ( cdf->num_columns == 0) {
         return 0;
     }
     for (int i = 0; i < cdf->num_columns; i++) {
@@ -107,7 +97,7 @@ int add_row(CDataframe* cdf, int* values) {
 }
 
 int delete_row(CDataframe* cdf, int row_index) {
-    if (!cdf || row_index >= cdf->num_rows || row_index < 0) {
+    if (row_index >= cdf->num_rows || row_index < 0) {
         return 0;
     }
     for (int i = 0; i < cdf->num_columns; i++) {
@@ -121,9 +111,7 @@ int delete_row(CDataframe* cdf, int row_index) {
 }
 
 int add_column(CDataframe* cdf, char* title) {
-    if (!cdf) return 0;
     COLUMN* col = (COLUMN*)malloc(sizeof(COLUMN));
-    if (!col) return 0;
     col->title = strdup(title);
     col->data = (int*)malloc(cdf->num_rows * sizeof(int));
     if (!col->data) {
@@ -149,7 +137,7 @@ int add_column(CDataframe* cdf, char* title) {
 }
 
 int delete_column(CDataframe* cdf, int col_index) {
-    if (!cdf || col_index >= cdf->num_columns || col_index < 0) {
+    if ( col_index >= cdf->num_columns || col_index < 0) {
         return 0;
     }
     free(cdf->columns[col_index]->data);
@@ -163,7 +151,7 @@ int delete_column(CDataframe* cdf, int col_index) {
 }
 
 int rename_column(CDataframe* cdf, int col_index,char* new_title) {
-    if (!cdf || col_index >= cdf->num_columns || col_index < 0) {
+    if (col_index >= cdf->num_columns || col_index < 0) {
         return 0;
     }
     free(cdf->columns[col_index]->title);
@@ -172,9 +160,6 @@ int rename_column(CDataframe* cdf, int col_index,char* new_title) {
 }
 
 int value_exists(CDataframe* cdf, int value) {
-    if (!cdf) {
-        return 0;
-    }
     for (int i = 0; i < cdf->num_columns; i++) {
         for (int j = 0; j < cdf->num_rows; j++) {
             if (cdf->columns[i]->data[j] == value) return 1;
@@ -184,7 +169,7 @@ int value_exists(CDataframe* cdf, int value) {
 }
 
 int access_value(CDataframe* cdf, int row, int col, int* value) {
-    if (!cdf || row >= cdf->num_rows || col >= cdf->num_columns || row < 0 || col < 0) {
+    if (row >= cdf->num_rows || col >= cdf->num_columns || row < 0 || col < 0) {
         return 0;
     }
     *value = cdf->columns[col]->data[row];
@@ -192,7 +177,7 @@ int access_value(CDataframe* cdf, int row, int col, int* value) {
 }
 
 int replace_value(CDataframe* cdf, int row, int col, int value) {
-    if (!cdf || row >= cdf->num_rows || col >= cdf->num_columns || row < 0 || col < 0) {
+    if ( row >= cdf->num_rows || col >= cdf->num_columns || row < 0 || col < 0) {
         return 0;
     }
     cdf->columns[col]->data[row] = value;
@@ -200,9 +185,6 @@ int replace_value(CDataframe* cdf, int row, int col, int value) {
 }
 
 void print_column_titles(CDataframe* cdf) {
-    if (!cdf) {
-        return;
-    }
     for (int i = 0; i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
     }
@@ -211,23 +193,14 @@ void print_column_titles(CDataframe* cdf) {
 
 // Analysis and statistics
 int num_rows(CDataframe* cdf) {
-    if (!cdf) {
-        return 0;
-    }
     return cdf->num_rows;
 }
 
 int num_columns(CDataframe* cdf) {
-    if (!cdf) {
-        return 0;
-    }
     return cdf->num_columns;
 }
 
 int count_equal(CDataframe* cdf, int x) {
-    if (!cdf){
-        return 0;
-    }
     int count = 0;
     for (int i = 0; i < cdf->num_columns; i++) {
         for (int j = 0; j < cdf->num_rows; j++) {
@@ -238,9 +211,6 @@ int count_equal(CDataframe* cdf, int x) {
 }
 
 int count_greater(CDataframe* cdf, int x) {
-    if (!cdf) {
-        return 0;
-    }
     int count = 0;
     for (int i = 0; i < cdf->num_columns; i++) {
         for (int j = 0; j < cdf->num_rows; j++) {
@@ -251,9 +221,6 @@ int count_greater(CDataframe* cdf, int x) {
 }
 
 int count_less(CDataframe* cdf, int x) {
-    if (!cdf) {
-        return 0;
-    }
     int count = 0;
     for (int i = 0; i < cdf->num_columns; i++) {
         for (int j = 0; j < cdf->num_rows; j++) {
