@@ -36,7 +36,7 @@ void dataframe_hardcoded(CDataframe* cdf) {
     // à faire
 }
 
-// Display
+
 void print_dataframe( CDataframe* cdf) {
     if (!cdf) {
         return;
@@ -86,7 +86,7 @@ void print_dataframe_columns(CDataframe* cdf, int col_limit) {
     }
 }
 
-// Usual operations
+
 int add_row(CDataframe* cdf, int* values) {
     if (!cdf || cdf->num_columns == 0) {
         return 0;
