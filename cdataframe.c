@@ -26,35 +26,29 @@ void free_dataframe(CDataframe* cdf) {
     free(cdf);
 }
 
-void dataframe_user_input(CDataframe* df) {
-    int num_columns, num_rows;
-
-    printf("Enter number of columns: ");
-    scanf("%d", &num_columns);
-
-    for (int i = 0; i < num_columns; i++) {
-        char title[256];
-        printf("Enter title for column %d: ", i + 1);
-        scanf("%s", title);
-        add_column(df, title);
-    }
-
-    printf("Enter number of rows: ");
-    scanf("%d", &num_rows);
-
-    for (int i = 0; i < num_rows; i++) {
-        int* values = (int*)malloc(num_columns * sizeof(int));
-        if (!values) {
-            printf("Memory allocation failed\n");
-            return;
+void dataframe_user_input(CDataframe* cdf) {
+    int logical_s, nb, val, i, j, nb_max=0;
+    char title[25];
+    printf("Veuillez saisir la taille de votre Dataframe: ");
+    scanf(" %d",&logical_s);
+    cdf->columns = (COLUMN**)realloc(cdf->columns, logical_s*sizeof(COLUMN*));
+    for (i=0; i<logical_s; i++){
+        cdf->num_columns ++;
+        printf("\nVeuillez saisir un titre pour votre colonne numero %d: ",i+1);
+        scanf(" %s", title);
+        COLUMN *col = create_column(title);
+        printf("\nVeuillez saisir le nombre de ligne souhaité dans votre colonne numero %d:", i+1);
+        scanf(" %d",&nb);
+        for(j=0; j<nb; j++){
+            printf("\nVeuillez saisir la valeur numero %d: ", j+1);
+            scanf(" %d", &val);
+            insert_value(col, val);
         }
-        printf("Enter values for row %d (space separated): ", i + 1);
-        for (int j = 0; j < num_columns; j++) {
-            scanf("%d", &values[j]);
-        }
-        add_row(df, values);
-        free(values);
+        cdf->columns[i] = col;
+        if(nb>nb_max)
+            nb_max = nb;
     }
+    cdf->num_rows = nb_max;
 }
 
 void dataframe_hardcoded(CDataframe* df) {
