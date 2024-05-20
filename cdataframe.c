@@ -184,6 +184,7 @@ int supprimer_ligne(CDataframe* cdf, int row_index) {
 int ajouter_colonne(CDataframe* cdf, char* title) {
     // Ajout d'une colonne
     // Création d'une nouvelle colonne
+    int x;
     COLUMN* col = (COLUMN*)malloc(sizeof(COLUMN));
     col->title = strdup(title);
     col->data = (int*)malloc(cdf->num_rows * sizeof(int));
@@ -194,8 +195,11 @@ int ajouter_colonne(CDataframe* cdf, char* title) {
     }
     col->logical_size = cdf->num_rows;
     col->physical_size = cdf->num_rows;
+    //Remplissage de cette nouvelle colonne
     for (int i = 0; i < cdf->num_rows; i++) {
-        col->data[i] = 0; // Initialisation à 0
+        printf("Saisir la valeur numero %d",i+1);
+        scanf(" %d",&x);
+        col->data[i] = x;
     }
     cdf->columns = realloc(cdf->columns, (cdf->num_columns + 1) * sizeof(COLUMN*));
     if (!cdf->columns) {
