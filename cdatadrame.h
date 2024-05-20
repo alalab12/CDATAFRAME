@@ -12,6 +12,12 @@ typedef struct {
     int num_rows;
 } CDataframe;
 
+/*
+Prototypes des fonctions
+Classés en fonction de leur usage
+*/
+
+
 //Creation
 CDataframe* creation_dataframe();
 
