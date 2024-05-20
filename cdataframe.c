@@ -96,7 +96,7 @@ void afficher_dataframe( CDataframe* cdf) {
     }
 }
 
-void print_dataframe_rows( CDataframe* cdf, int row_limit) {
+void afficher_dataframe_rows( CDataframe* cdf, int row_limit) {
     //Affichage de certaines lignes
     for (int i = 0; i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
