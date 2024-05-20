@@ -66,18 +66,18 @@ void dataframe_remplissage_utilisateur(CDataframe* cdf) {
 
 void dataframe_remplissage_dur(CDataframe* df) {
     //Ajout des trois colonne en dur
-    add_column(df, "Column1");
-    add_column(df, "Column2");
-    add_column(df, "Column3");
+    ajouter_colonne(df, "Column1");
+    ajouter_colonne(df, "Column2");
+    ajouter_colonne(df, "Column3");
 
     //Remplissage avec des valeurs
     int values1[] = {1, 2, 3};
     int values2[] = {4, 5, 6};
     int values3[] = {7, 8, 9};
 
-    add_row(df, values1);
-    add_row(df, values2);
-    add_row(df, values3);
+    ajouter_ligne(df, values1);
+    ajouter_ligne(df, values2);
+    ajouter_ligne(df, values3);
 }
 
 //Affichage
