@@ -243,16 +243,15 @@ int valeur_exists(CDataframe* cdf, int value) {
     for (int i = 0; i < cdf->num_columns; i++) {
         for (int j = 0; j < cdf->num_rows; j++) {
             if (cdf->columns[i]->data[j] == value){ //test de présence
-                printf("La valeur %d existe dans le data frame", value);
                 return 1;}
         }
     }
-    printf("La valeur n'est pas présente.");//gestion cas d'erreur
+    //gestion cas d'erreur
     return 0;
 }
 
 //Permet d'accéder à une valeur du DATAFRAME
-int accceder_valeur(CDataframe* cdf, int row, int col, int* value) {
+int acceder_valeur(CDataframe* cdf, int row, int col, int* value) {
     if (row >= cdf->num_rows || col >= cdf->num_columns || row < 0 || col < 0) { //gestion cas d'erreur
         return 0;
     }
