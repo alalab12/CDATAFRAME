@@ -13,19 +13,19 @@ typedef struct {
 } CDataframe;
 
 //Creation
-CDataframe* create_dataframe();
+CDataframe* creation_dataframe();
 
 //Removal
-void free_dataframe(CDataframe* cdf);
+void liberer_dataframe(CDataframe* cdf);
 
 //Filling
-void dataframe_user_input(CDataframe* cdf);
-void dataframe_hardcoded(CDataframe* cdf);
+void dataframe_remplissage_utisateur(CDataframe* cdf);
+void dataframe_dur(CDataframe* cdf);
 
 // Display
-void print_dataframe(CDataframe* cdf);
-void print_dataframe_rows(CDataframe* cdf, int row_limit);
-void print_dataframe_columns( CDataframe* cdf, int col_limit);
+void afficher_dataframe(CDataframe* cdf);
+void afficher_dataframe_lignes(CDataframe* cdf, int row_limit);
+void print_dataframe_colonnes( CDataframe* cdf, int col_limit);
 
 //Handling
 int add_row(CDataframe* cdf, int* values);
