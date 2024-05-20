@@ -6,12 +6,12 @@
 
 
 CDataframe* creation_dataframe() {
-    //Allocation de la mémoire
-    CDataframe* cdf= (CDataframe*)malloc(sizeof(CDataframe));
+    // Allocation de la mémoire
+    CDataframe* cdf = (CDataframe*)malloc(sizeof(CDataframe));
     if (!cdf) {
         return NULL;
     }
-    //Iniatialisation
+    // Initialisation
     cdf->columns = NULL;
     cdf->num_columns = 0;
     cdf->num_rows = 0;
@@ -19,58 +19,62 @@ CDataframe* creation_dataframe() {
 }
 
 void liberer_dataframe(CDataframe* cdf) {
-    //Libérer la mémoire pour chaque colonne
+    // Libérer la mémoire pour chaque colonne
     for (int i = 0; i < cdf->num_columns; i++) {
         free(cdf->columns[i]->data);
         free(cdf->columns[i]->title);
         free(cdf->columns[i]);
     }
-    //Libérer le data frame
+    // Libérer le data frame
     free(cdf->columns);
     free(cdf);
 }
 
 void dataframe_remplissage_utilisateur(CDataframe* cdf) {
-    //Remplissage du data frame par l'utilisateur
-    int logical_s, nb, val, i, j, nb_max=0;
+    // Remplissage du data frame par l'utilisateur
+    int num_columns, num_values, val, i, j;
     char title[25];
-    printf("Veuillez saisir la taille de votre Dataframe: ");
-    scanf(" %d",&logical_s);
-    //Allocation de la mémoire pour les colonnes
-    cdf->columns = (COLUMN**)realloc(cdf->columns, logical_s*sizeof(COLUMN*));
-    for (i=0; i<logical_s; i++){
-        //Changer le nombre de colonne dans le data frame
-        cdf->num_columns ++;
-        //Choix du titre
-        printf("\nVeuillez saisir un titre pour votre colonne numero %d: ",i+1);
-        scanf(" %s", title);
-        //Création d'une nouvelle colonne
+    
+    // Demande du nombre de colonnes
+    printf("Veuillez saisir le nombre de colonnes de votre Dataframe: ");
+    scanf("%d", &num_columns);
+    
+    // Demande du nombre de valeurs par colonne
+    printf("Veuillez saisir le nombre de valeurs par colonne: ");
+    scanf("%d", &num_values);
+    
+    // Allocation de la mémoire pour les colonnes
+    cdf->columns = (COLUMN**)realloc(cdf->columns, num_columns * sizeof(COLUMN*));
+    cdf->num_columns = num_columns;
+    cdf->num_rows = num_values;
+
+    for (i = 0; i < num_columns; i++) {
+      
+        printf("\nVeuillez saisir un titre pour votre colonne numero %d: ", i + 1);
+        scanf("%s", title);
+        
+        // Création d'une nouvelle colonne
         COLUMN *col = create_column(title);
-        printf("\nVeuillez saisir le nombre de ligne souhaité dans votre colonne numero %d:", i+1);
-        scanf(" %d",&nb);
-        //Remplissage des valeurs de la colonne par l'utilisateur
-        for(j=0; j<nb; j++){
-            printf("\nVeuillez saisir la valeur numero %d: ", j+1);
-            scanf(" %d", &val);
+        
+        // Remplissage des valeurs de la colonne par l'utilisateur
+        for (j = 0; j < num_values; j++) {
+            printf("\nVeuillez saisir la valeur numero %d pour la colonne %s: ", j + 1, title);
+            scanf("%d", &val);
             insert_value(col, val);
         }
-        //Mettre la colonne dans le data frame
+        
+        // Mettre la colonne dans le data frame
         cdf->columns[i] = col;
-        //Teste si c'est la colonne avec le plus de ligne
-        if(nb>nb_max)
-            nb_max = nb;
     }
-    //Changement du nombre de ligne du data frame en prenant celle de la plus grande colonne
-    cdf->num_rows = nb_max;
 }
 
 void dataframe_remplissage_dur(CDataframe* df) {
-    //Ajout des trois colonne en dur
+    // Ajout des trois colonnes en dur
     ajouter_colonne(df, "Column1");
     ajouter_colonne(df, "Column2");
     ajouter_colonne(df, "Column3");
 
-    //Remplissage avec des valeurs
+    // Remplissage avec des valeurs
     int values1[] = {1, 2, 3};
     int values2[] = {4, 5, 6};
     int values3[] = {7, 8, 9};
@@ -80,31 +84,40 @@ void dataframe_remplissage_dur(CDataframe* df) {
     ajouter_ligne(df, values3);
 }
 
-//Affichage
-void afficher_dataframe( CDataframe* cdf) {
-    //Affichage du data frame  A CHANGER POUR POUVOIR AFFICHER DES COLONNES DE TAILLES DIFFERENTES!!
+// Affichage
+void afficher_dataframe(CDataframe* cdf) {
+    // Affichage des titres des colonnes
     for (int i = 0; i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
     }
     printf("\n");
 
+    // Affichage des données du data frame
     for (int i = 0; i < cdf->num_rows; i++) {
         for (int j = 0; j < cdf->num_columns; j++) {
-            printf("%d\t", cdf->columns[j]->data[i]);
+            if (i < cdf->columns[j]->logical_size) {
+                printf("%d\t", cdf->columns[j]->data[i]);
+            } else {
+                printf("\t"); // Espace pour colonnes de différentes tailles
+            }
         }
         printf("\n");
     }
 }
 
-void afficher_dataframe_lignes( CDataframe* cdf, int row_limit) {
-    //Affichage de certaines lignes
+void afficher_dataframe_lignes(CDataframe* cdf, int row_limit) {
+    // Affichage de certaines lignes
     for (int i = 0; i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
     }
     printf("\n");
     for (int i = 0; i < row_limit && i < cdf->num_rows; i++) {
         for (int j = 0; j < cdf->num_columns; j++) {
-            printf("%d\t", cdf->columns[j]->data[i]);
+            if (i < cdf->columns[j]->logical_size) {
+                printf("%d\t", cdf->columns[j]->data[i]);
+            } else {
+                printf("\t"); // Espace pour colonnes de différentes tailles
+            }
         }
         printf("\n");
     }
@@ -117,19 +130,23 @@ void afficher_dataframe_colonnes(CDataframe* cdf, int col_limit) {
     printf("\n");
     for (int i = 0; i < cdf->num_rows; i++) {
         for (int j = 0; j < col_limit && j < cdf->num_columns; j++) {
-            printf("%d\t", cdf->columns[j]->data[i]);
+            if (i < cdf->columns[j]->logical_size) {
+                printf("%d\t", cdf->columns[j]->data[i]);
+            } else {
+                printf("\t"); // Espace pour colonnes de différentes tailles
+            }
         }
         printf("\n");
     }
 }
 
-//Fonctionnalités
+// Fonctionnalités
 int ajouter_ligne(CDataframe* cdf, int* values) {
-    //Ajout d'une ligne dans chaque colonne
-    if ( cdf->num_columns == 0) {
+    // Ajout d'une ligne dans chaque colonne
+    if (cdf->num_columns == 0) {
         return 0;
     }
-    //Pour chaque colonne, teste si de la taille physique égale à la taille logique, si oui changement de la taille de la mémoire
+    // Pour chaque colonne, teste si de la taille physique égale à la taille logique, si oui changement de la taille de la mémoire
     for (int i = 0; i < cdf->num_columns; i++) {
         if (cdf->columns[i]->logical_size == cdf->columns[i]->physical_size) {
             int new_size = cdf->columns[i]->physical_size + REALLOC_SIZE;
@@ -138,17 +155,17 @@ int ajouter_ligne(CDataframe* cdf, int* values) {
             cdf->columns[i]->data = new_data;
             cdf->columns[i]->physical_size = new_size;
         }
-        //Sinon ajout directement de la valeur dans la ligne
+        // Sinon ajout directement de la valeur dans la ligne
         cdf->columns[i]->data[cdf->num_rows] = values[i];
         cdf->columns[i]->logical_size++;
     }
-    //Changement du nombre de ligne dans le data frame
+    // Changement du nombre de ligne dans le data frame
     cdf->num_rows++;
     return 1;
 }
 
 int supprimer_ligne(CDataframe* cdf, int row_index) {
-    //Supprime une ligne si elle existe dans le data frame
+    // Supprime une ligne si elle existe dans le data frame
     if (row_index >= cdf->num_rows || row_index < 0) {
         return 0;
     }
@@ -156,17 +173,17 @@ int supprimer_ligne(CDataframe* cdf, int row_index) {
         for (int j = row_index; j < cdf->num_rows - 1; j++) {
             cdf->columns[i]->data[j] = cdf->columns[i]->data[j + 1];
         }
-        //Changement de la taille logique des colonnes
+        // Changement de la taille logique des colonnes
         cdf->columns[i]->logical_size--;
     }
-    //Changement du nombre de ligne dans le data frame
+    // Changement du nombre de ligne dans le data frame
     cdf->num_rows--;
     return 1;
 }
 
 int ajouter_colonne(CDataframe* cdf, char* title) {
-    //Ajout d'une colonne
-    //Création d'une nouvelle colonne
+    // Ajout d'une colonne
+    // Création d'une nouvelle colonne
     COLUMN* col = (COLUMN*)malloc(sizeof(COLUMN));
     col->title = strdup(title);
     col->data = (int*)malloc(cdf->num_rows * sizeof(int));
@@ -192,24 +209,23 @@ int ajouter_colonne(CDataframe* cdf, char* title) {
     return 1;
 }
 
-int suprimer_colonne(CDataframe* cdf, int col_index) {
-    //Suppression d'une colonne du data frame si elle existe
-    if ( col_index >= cdf->num_columns || col_index < 0) {
+int supprimer_colonne(CDataframe* cdf, int col_index) {
+    // Suppression d'une colonne du data frame si elle existe
+    if (col_index >= cdf->num_columns || col_index < 0) {
         return 0;
     }
-    //Libérer la mémoire de la colonne
+    // Libérer la mémoire de la colonne
     free(cdf->columns[col_index]->data);
     free(cdf->columns[col_index]->title);
     free(cdf->columns[col_index]);
-    //Changement de place des colonnes suivantes s'il y en a
+    // Changement de place des colonnes suivantes s'il y en a
     for (int i = col_index; i < cdf->num_columns - 1; i++) {
         cdf->columns[i] = cdf->columns[i + 1];
     }
-    //Changement du nombre de colonne dans le data frame
+    // Changement du nombre de colonnes dans le data frame
     cdf->num_columns--;
     return 1;
 }
-
 int renomer_colonne(CDataframe* cdf, int col_index,char* new_title) {
     //Nouveau nom pour une colonne si elle existe
     if (col_index >= cdf->num_columns || col_index < 0) {
