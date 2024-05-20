@@ -28,19 +28,19 @@ void afficher_dataframe_lignes(CDataframe* cdf, int row_limit);
 void print_dataframe_colonnes( CDataframe* cdf, int col_limit);
 
 //Handling
-int add_row(CDataframe* cdf, int* values);
-int delete_row(CDataframe* cdf, int row_index);
-int add_column(CDataframe* cdf, char* title);
-int delete_column(CDataframe* cdf, int col_index);
-int rename_column(CDataframe* cdf, int col_index, char* new_title);
+int ajouter_ligne(CDataframe* cdf, int* values);
+int supprimer_ligne(CDataframe* cdf, int row_index);
+int ajouter_colonne(CDataframe* cdf, char* title);
+int suprimer_colonne(CDataframe* cdf, int col_index);
+int rename_colonne(CDataframe* cdf, int col_index, char* new_title);
 int value_exists(CDataframe* cdf, int value);
-int access_value(CDataframe* cdf, int row, int col, int* value);
-int replace_value(CDataframe* cdf, int row, int col, int value);
-void print_column_titles( CDataframe* cdf);
+int access_valeur(CDataframe* cdf, int row, int col, int* value);
+int remplacer_value(CDataframe* cdf, int row, int col, int value);
+void afficher_titres_colonnes( CDataframe* cdf);
 
 //Functionality
-int num_rows(CDataframe* cdf);
-int num_columns(CDataframe* cdf);
-int count_equal(CDataframe* cdf, int x);
-int count_greater(CDataframe* cdf, int x);
-int count_less(CDataframe* cdf, int x);
+int nombre_lignes(CDataframe* cdf);
+int nombre_colonne(CDataframe* cdf);
+int count_egal(CDataframe* cdf, int x);
+int count_superieur(CDataframe* cdf, int x);
+int count_inferieur(CDataframe* cdf, int x);
