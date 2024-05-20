@@ -222,7 +222,7 @@ int renomer_colonne(CDataframe* cdf, int col_index,char* new_title) {
     return cdf->columns[col_index]->title != NULL;
 }
 
-int value_exists(CDataframe* cdf, int value) {
+int valeur_exists(CDataframe* cdf, int value) {
     //Test si la valeur existe dans le data frame
     for (int i = 0; i < cdf->num_columns; i++) {
         for (int j = 0; j < cdf->num_rows; j++) {
@@ -254,7 +254,7 @@ int remplacer_valeur(CDataframe* cdf, int row, int col, int value) {
     return 1;
 }
 
-void afficher_titre(CDataframe* cdf) {
+void afficher_titres(CDataframe* cdf) {
     //Affichage du nom de toute les colonnes séparé par une tabulation
     for (int i = 0; i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
