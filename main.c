@@ -80,7 +80,7 @@ void menu_remplissage(CDataframe* cdf) {
     printf("Remplissage de dataframe :\n");
     printf("1. Remplir le dataframe a partir de l'utilisateur\n");
     printf("2. Remplir le dataframe end dur\n");
-    printf("Entrez votre choix : ");
+    printf("Entrez votre choix : ");//choix tu mode de remplissage
     int choix;
     scanf("%d", &choix);
 
@@ -100,7 +100,7 @@ void menu_remplissage(CDataframe* cdf) {
 void menu_supression(CDataframe* cdf) {
     printf("Suppression de dataframe :\n");
     printf("1. Liberer le dataframe\n");
-    printf("Entrez votre choix : ");
+    printf("Entrez votre choix : ");//choix entre 1 seul possiblité (supression)
     int choix;
     scanf("%d", &choix);
 
@@ -117,7 +117,7 @@ void menu_affichage(CDataframe* cdf) {
     printf("1. Afficher tout le dataframe\n");
     printf("2. Afficher les lignes du dataframe\n");
     printf("3. Afficher les colonnes du dataframe\n");
-    printf("Entrez votre choix : ");
+    printf("Entrez votre choix : ");// choix du mode d'affichage
     int choix;
     scanf("%d", &choix);
 
@@ -152,7 +152,7 @@ void menu_operation(CDataframe* cdf) {
     printf("7. Acceder a une valeur\n");
     printf("8. Remplacer une valeur\n");
     printf("9. Afficher les titres\n");
-    printf("Entrez votre choix : ");
+    printf("Entrez votre choix : ");// choix du type d'opération
     int choix;
     scanf("%d", &choix);
 
@@ -285,7 +285,7 @@ void menu_fonctionnalite(CDataframe* cdf) {
     printf("3. Compter les valeurs egales a un entier\n");
     printf("4. Compter les valeurs superieures a un entier\n");
     printf("5. Compter les valeurs inferieures a un entier\n");
-    printf("Entrez votre choix : ");
+    printf("Entrez votre choix : ");//choix du type de fonctionnalitées
     int choix;
     scanf("%d", &choix);
 
