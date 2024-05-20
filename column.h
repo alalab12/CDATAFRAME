@@ -14,7 +14,7 @@ typedef struct {
 }COLUMN;
 
 
-
+//prototypes fonctions 
 
 COLUMN *create_column(char* title);
 
