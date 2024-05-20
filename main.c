@@ -13,7 +13,7 @@ void menu_operation(CDataframe* cdf);
 void menu_fonctionnalite(CDataframe* cdf);
 
 int main() {
-    CDataframe* cdf = creation_dataframe();
+    CDataframe* cdf = creation_dataframe();//création du DATAFRAME
 
     int choix, verif = 1;
     while(verif) {
@@ -29,7 +29,7 @@ int main() {
         printf("Entrez votre choix : ");
         scanf("%d", &choix);
 
-        switch (choix) {
+        switch (choix) { //choix du menu souhaité
             case 1:
                 menu_creation(cdf);
                 break;
@@ -54,7 +54,7 @@ int main() {
                 verif=0;
                 break;
             default:
-                printf("Choix invalide. Reessayer.\n");
+                printf("Choix invalide. Reessayer.\n");//gestion cas d'erreur
         }
     }
 
@@ -72,7 +72,7 @@ void menu_creation(CDataframe* cdf) {
         // Creer un dataframe vide
         printf("Dataframe cree !\n");
     } else {
-        printf("Choix invalide. Reessayer.\n");
+        printf("Choix invalide. Reessayer.\n");//gestion cas d'erreur
     }
 }
 
@@ -93,7 +93,7 @@ void menu_remplissage(CDataframe* cdf) {
         printf("Dataframe rempli en dur !\n");
     }
     else {
-        printf("Choix invalide. Reessayer.\n");
+        printf("Choix invalide. Reessayer.\n");//gestion cas d'erreur
     }
 }
 
@@ -108,7 +108,7 @@ void menu_supression(CDataframe* cdf) {
         liberer_dataframe(cdf);
         printf("Dataframe libere !\n");
     } else {
-        printf("Choix invalide. Reessayer.\n");
+        printf("Choix invalide. Reessayer.\n");//gestion cas d'erreur
     }
 }
 
@@ -137,7 +137,7 @@ void menu_affichage(CDataframe* cdf) {
         afficher_dataframe_colonnes(cdf, col_limite);
         
     } else {
-        printf("Choix invalide. Reessayer.\n");
+        printf("Choix invalide. Reessayer.\n");//gestion cas d'erreur
     }
 }
 
@@ -168,7 +168,7 @@ void menu_operation(CDataframe* cdf) {
             printf("Ligne ajoutee avec succes !\n");
             
         } else {
-            printf("Erreur lors de l'ajout de la ligne.\n");
+            printf("Erreur lors de l'ajout de la ligne.\n");//gestion cas d'erreur
             
         }
     } else if (choix == 2) {
@@ -181,7 +181,7 @@ void menu_operation(CDataframe* cdf) {
             printf("Ligne supprimee avec succes !\n");
             
         } else {
-            printf("Erreur lors de la suppression de la ligne.\n");
+            printf("Erreur lors de la suppression de la ligne.\n");//gestion cas d'erreur
         }
         
     } else if (choix == 3) {
@@ -194,7 +194,7 @@ void menu_operation(CDataframe* cdf) {
             printf("Colonne ajoutee avec succes !\n");
             
         } else {
-            printf("Erreur lors de l'ajout de la colonne.\n");
+            printf("Erreur lors de l'ajout de la colonne.\n");//gestion cas d'erreur
         }
         
     } else if (choix == 4) {
@@ -207,7 +207,7 @@ void menu_operation(CDataframe* cdf) {
             printf("Colonne supprimee avec succes !\n");
             
         } else {
-            printf("Erreur lors de la suppression de la colonne.\n");
+            printf("Erreur lors de la suppression de la colonne.\n");//gestion cas d'erreur
         }
         
     } else if (choix == 5) {
@@ -223,7 +223,7 @@ void menu_operation(CDataframe* cdf) {
             printf("Colonne renommee avec succes !\n");
             
         } else {
-            printf("Erreur lors du renommage de la colonne.\n");
+            printf("Erreur lors du renommage de la colonne.\n");//gestion cas d'erreur
         }
         
     } else if (choix == 6) {
@@ -236,7 +236,7 @@ void menu_operation(CDataframe* cdf) {
             printf("La valeur existe dans le dataframe.\n");
             
         } else {
-            printf("La valeur n'existe pas dans le dataframe.\n");
+            printf("La valeur n'existe pas dans le dataframe.\n");//gestion cas d'erreur
         }
         
     } else if (choix == 7) {
@@ -252,7 +252,7 @@ void menu_operation(CDataframe* cdf) {
             printf("La valeur a la ligne %d et a la colonne %d est : %d\n", lig, col, valeur);
             
         } else {
-            printf("Erreur lors de l'acces a la valeur.\n");
+            printf("Erreur lors de l'acces a la valeur.\n");//gestion cas d'erreur
         }
         
     } else if (choix == 8) {
@@ -270,7 +270,7 @@ void menu_operation(CDataframe* cdf) {
             printf("Valeur remplacee !\n");
             
         } else {
-            printf("Erreur lors du remplacement de la valeur.\n");
+            printf("Erreur lors du remplacement de la valeur.\n");//gestion cas d'erreur
         }
         
     } else if (choix == 9) {
@@ -319,6 +319,6 @@ void menu_fonctionnalite(CDataframe* cdf) {
         printf("Nombre de valeurs inferieures a %d : %d\n", x, result);
         
     } else {
-        printf("Choix invalide. Reessayer.\n");
+        printf("Choix invalide. Reessayer.\n");//gestion cas d'erreur
     }
 }
