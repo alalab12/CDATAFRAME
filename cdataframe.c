@@ -96,7 +96,7 @@ void afficher_dataframe( CDataframe* cdf) {
     }
 }
 
-void afficher_dataframe_rows( CDataframe* cdf, int row_limit) {
+void afficher_dataframe_lignes( CDataframe* cdf, int row_limit) {
     //Affichage de certaines lignes
     for (int i = 0; i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
@@ -124,7 +124,7 @@ void afficher_dataframe_colonnes(CDataframe* cdf, int col_limit) {
 }
 
 //Fonctionnalités
-int add_row(CDataframe* cdf, int* values) {
+int ajouter_ligne(CDataframe* cdf, int* values) {
     //Ajout d'une ligne dans chaque colonne
     if ( cdf->num_columns == 0) {
         return 0;
@@ -147,7 +147,7 @@ int add_row(CDataframe* cdf, int* values) {
     return 1;
 }
 
-int delete_row(CDataframe* cdf, int row_index) {
+int supprimer_ligne(CDataframe* cdf, int row_index) {
     //Supprime une ligne si elle existe dans le data frame
     if (row_index >= cdf->num_rows || row_index < 0) {
         return 0;
@@ -164,7 +164,7 @@ int delete_row(CDataframe* cdf, int row_index) {
     return 1;
 }
 
-int add_column(CDataframe* cdf, char* title) {
+int ajouter_colonne(CDataframe* cdf, char* title) {
     //Ajout d'une colonne
     //Création d'une nouvelle colonne
     COLUMN* col = (COLUMN*)malloc(sizeof(COLUMN));
@@ -192,7 +192,7 @@ int add_column(CDataframe* cdf, char* title) {
     return 1;
 }
 
-int delete_column(CDataframe* cdf, int col_index) {
+int suprimer_colonne(CDataframe* cdf, int col_index) {
     //Suppression d'une colonne du data frame si elle existe
     if ( col_index >= cdf->num_columns || col_index < 0) {
         return 0;
@@ -210,7 +210,7 @@ int delete_column(CDataframe* cdf, int col_index) {
     return 1;
 }
 
-int rename_column(CDataframe* cdf, int col_index,char* new_title) {
+int renomer_colonne(CDataframe* cdf, int col_index,char* new_title) {
     //Nouveau nom pour une colonne si elle existe
     if (col_index >= cdf->num_columns || col_index < 0) {
         return 0;
@@ -236,7 +236,7 @@ int value_exists(CDataframe* cdf, int value) {
     return 0;
 }
 
-int access_value(CDataframe* cdf, int row, int col, int* value) {
+int accceder_valeur(CDataframe* cdf, int row, int col, int* value) {
     //Accéder à une valeur dans le data frame si la position existe
     if (row >= cdf->num_rows || col >= cdf->num_columns || row < 0 || col < 0) {
         return 0;
@@ -245,7 +245,7 @@ int access_value(CDataframe* cdf, int row, int col, int* value) {
     return 1;
 }
 
-int replace_value(CDataframe* cdf, int row, int col, int value) {
+int remplacer_valeur(CDataframe* cdf, int row, int col, int value) {
     //Changement d'une valeur si la position est possible
     if ( row >= cdf->num_rows || col >= cdf->num_columns || row < 0 || col < 0) {
         return 0;
@@ -254,7 +254,7 @@ int replace_value(CDataframe* cdf, int row, int col, int value) {
     return 1;
 }
 
-void print_column_titles(CDataframe* cdf) {
+void afficher_titre(CDataframe* cdf) {
     //Affichage du nom de toute les colonnes séparé par une tabulation
     for (int i = 0; i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
@@ -263,17 +263,17 @@ void print_column_titles(CDataframe* cdf) {
 }
 
 //Analyse et statistiques
-int num_rows(CDataframe* cdf) {
+int nombre_ligne(CDataframe* cdf) {
     //Nombre de lignes dans le data frame 
     return cdf->num_rows;
 }
 
-int num_columns(CDataframe* cdf) {
+int nombre_colonne(CDataframe* cdf) {
     //Nombre de colonne
     return cdf->num_columns;
 }
 
-int count_equal(CDataframe* cdf, int x) {
+int count_egal(CDataframe* cdf, int x) {
     //Nombre valeur égale à x dans le data frame
     //Iniatialisation du compteur
     int count = 0;
@@ -287,7 +287,7 @@ int count_equal(CDataframe* cdf, int x) {
     return count;
 }
 
-int count_greater(CDataframe* cdf, int x) {
+int count_sup(CDataframe* cdf, int x) {
     //Nombre de valeur dans le data frame supérieure à x
     int count = 0;
     //Parcours du data frame
@@ -301,7 +301,7 @@ int count_greater(CDataframe* cdf, int x) {
     return count;
 }
 
-int count_less(CDataframe* cdf, int x) {
+int count_inf(CDataframe* cdf, int x) {
     //Nombre de valeur inférieure à x
     int count = 0;
     //Parcours du data frame
