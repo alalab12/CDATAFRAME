@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 
-CDataframe* create_dataframe() {
+CDataframe* creation_dataframe() {
     //Allocation de la mémoire
     CDataframe* cdf= (CDataframe*)malloc(sizeof(CDataframe));
     if (!cdf) {
@@ -18,7 +18,7 @@ CDataframe* create_dataframe() {
     return cdf;
 }
 
-void free_dataframe(CDataframe* cdf) {
+void liberer_dataframe(CDataframe* cdf) {
     //Libérer la mémoire pour chaque colonne
     for (int i = 0; i < cdf->num_columns; i++) {
         free(cdf->columns[i]->data);
@@ -30,7 +30,7 @@ void free_dataframe(CDataframe* cdf) {
     free(cdf);
 }
 
-void dataframe_user_input(CDataframe* cdf) {
+void dataframe_remplissage_utilisateur(CDataframe* cdf) {
     //Remplissage du data frame par l'utilisateur
     int logical_s, nb, val, i, j, nb_max=0;
     char title[25];
@@ -64,7 +64,7 @@ void dataframe_user_input(CDataframe* cdf) {
     cdf->num_rows = nb_max;
 }
 
-void dataframe_hardcoded(CDataframe* df) {
+void dataframe_remplissage_dur(CDataframe* df) {
     //Ajout des trois colonne en dur
     add_column(df, "Column1");
     add_column(df, "Column2");
@@ -81,7 +81,7 @@ void dataframe_hardcoded(CDataframe* df) {
 }
 
 //Affichage
-void print_dataframe( CDataframe* cdf) {
+void afficher_dataframe( CDataframe* cdf) {
     //Affichage du data frame  A CHANGER POUR POUVOIR AFFICHER DES COLONNES DE TAILLES DIFFERENTES!!
     for (int i = 0; i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
@@ -110,7 +110,7 @@ void print_dataframe_rows( CDataframe* cdf, int row_limit) {
     }
 }
 
-void print_dataframe_columns(CDataframe* cdf, int col_limit) {
+void afficher_dataframe_colonnes(CDataframe* cdf, int col_limit) {
     for (int i = 0; i < col_limit && i < cdf->num_columns; i++) {
         printf("%s\t", cdf->columns[i]->title);
     }
